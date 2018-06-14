@@ -12,9 +12,9 @@ class User < ApplicationRecord
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
   has_many :skinships
-  has_many :likings, through: :relationships, source: :like
-  has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'like_id'
-  has_many :likers, through: :reverses_of_relationship, source: :user
+  has_many :likings, through: :skinships, source: :like
+  has_many :reverses_of_skinship, class_name: 'Skinship', foreign_key: 'like_id'
+  has_many :likers, through: :reverses_of_skinship, source: :user
   
   
   def follow(other_user)
