@@ -39,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def unlike(other_user)
-    skinship = self.relationships.find_by(like_id: other_user.id)
+    skinship = self.skinnships.find_by(like_id: other_user.id)
     skinship.destroy if skinship
   end
 
