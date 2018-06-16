@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     @count_followings = user.followings.count
     @count_followers = user.followers.count
     @count_liking = user.likings.count
-    @count_likers = user.likers.count
+#    @count_likers = user.likers.count
   end
   
 end

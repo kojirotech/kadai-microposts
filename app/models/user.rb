@@ -11,10 +11,10 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
-  has_many :skinships
-  has_many :likings, through: :skinships, source: :like
-  has_many :reverses_of_skinship, class_name: 'Skinship', foreign_key: 'like_id'
-  has_many :likers, through: :reverses_of_skinship, source: :user
+  has_many :likes
+  has_many :likings, through: :likes, source: :micropost
+#  has_many :reverses_of_skinship, class_name: 'Skinship', foreign_key: 'like_id'
+#  has_many :likers, through: :reverses_of_skinship, source: :user
   
   
   def follow(other_user)
@@ -32,19 +32,17 @@ class User < ApplicationRecord
     self.followings.include?(other_user)
   end
   
-  def like(other_user)
-    unless self == other_user
-      self.skinships.find_or_create_by(like_id: other_user.id)
-    end
+  def like(micropost)
+    self.likes.find_or_create_by(micropost_id: micropost.id)
   end
 
-  def unlike(other_user)
-    skinship = self.skinnships.find_by(like_id: other_user.id)
-    skinship.destroy if skinship
+  def unlike(micropost)
+    like = self.likes.find_by(micropost_id: micropost.id)
+    like.destroy if like
   end
 
-  def liking?(other_user)
-    self.likings.include?(other_user)
+  def liking?(micropost)
+    self.likings.include?(micropost)
   end
   
   def feed_microposts
